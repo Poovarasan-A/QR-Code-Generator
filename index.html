@@ -3,7 +3,98 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>QR Code Generator</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: poppins;
+      }
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #09143c;
+      }
+      .container {
+        margin: 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 450px;
+        border-radius: 20px;
+        background-color: #fff;
+      }
+      h1 {
+        margin-top: 15px;
+      }
+      label {
+        margin-top: 10px;
+        font-size: 14px;
+        color: gray;
+      }
+      input {
+        margin: 15px 0px;
+        width: 400px;
+        padding: 10px;
+        font-size: 18px;
+        border: none;
+        outline: none;
+        border-bottom: 3px solid #000;
+        border-radius: 8px;
+      }
+      .genqr {
+        width: 250px;
+        padding: 8px;
+        background: none;
+        border: none;
+        background-color: #2f4bff;
+        margin-bottom: 10px;
+        border-radius: 30px;
+        color: #fff;
+        font-size: 18px;
+        cursor: pointer;
+      }
+      #qrImg {
+        margin: 10px 0px;
+      }
+      .png,
+      .pdf {
+        width: 100px;
+        padding: 6px;
+        background: none;
+        border-radius: 30px;
+        margin: 20px 8px;
+        font-size: 18px;
+      }
+    </style>
   </head>
-  <body></body>
+  <body>
+    <div class="container">
+      <h1>QR Code Generator</h1>
+      <label>Paste Url or Enter text to create QR Code</label>
+      <input type="text" placeholder="Enter text or url" id="qrTxt" required />
+      <button class="genqr" onclick="generateQR()">Generate QR Code</button>
+      <div id="imgBox">
+        <img src="" id="qrImg" />
+      </div>
+      <div class="save">
+        <button class="png">PNG</button>
+        <button class="pdf">PDF</button>
+      </div>
+    </div>
+    <script>
+      let imgBox = document.getElementById("imgBox");
+      let qrTxt = document.getElementById("qrTxt");
+      let qrImg = document.getElementById("qrImg");
+
+      function generateQR() {
+        qrImg.src =
+          "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=" +
+          qrTxt.value;
+      }
+    </script>
+  </body>
 </html>
