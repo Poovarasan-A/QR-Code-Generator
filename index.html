@@ -37,13 +37,12 @@
       }
       input {
         margin: 15px 0px;
-        width: 400px;
+        width: 300px;
         padding: 10px;
         font-size: 18px;
         border: none;
         outline: none;
         border-bottom: 3px solid #000;
-        border-radius: 8px;
       }
       .genqr {
         width: 250px;
@@ -60,14 +59,14 @@
       #qrImg {
         margin: 10px 0px;
       }
-      .png,
-      .pdf {
-        width: 100px;
+      .dwnld {
+        width: 150px;
         padding: 6px;
         background: none;
         border-radius: 30px;
         margin: 20px 8px;
         font-size: 18px;
+        cursor: pointer;
       }
     </style>
   </head>
@@ -76,25 +75,35 @@
       <h1>QR Code Generator</h1>
       <label>Paste Url or Enter text to create QR Code</label>
       <input type="text" placeholder="Enter text or url" id="qrTxt" required />
-      <button class="genqr" onclick="generateQR()">Generate QR Code</button>
+      <button class="genqr" id="generate">Generate QR Code</button>
       <div id="imgBox">
         <img src="" id="qrImg" />
       </div>
       <div class="save">
-        <button class="png">PNG</button>
-        <button class="pdf">PDF</button>
+        <button type="button" class="dwnld" id="download">DOWNLOAD</button>
       </div>
     </div>
     <script>
-      let imgBox = document.getElementById("imgBox");
-      let qrTxt = document.getElementById("qrTxt");
-      let qrImg = document.getElementById("qrImg");
+      const input = document.querySelector("input");
+      const qrImg = document.querySelector("img");
+      const generateBtn = document.querySelector("#generate");
+      const downloadBtn = document.querySelector("#download");
 
-      function generateQR() {
-        qrImg.src =
-          "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=" +
-          qrTxt.value;
-      }
+      generateBtn.addEventListener("click", () => {
+        const qrCode =
+          "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=" +
+          input.value;
+        qrImg.src = qrCode;
+      });
+
+      downloadBtn.addEventListener("click", async () => {
+        const response = await fetch(qrImg.src);
+        const blob = await response.blob();
+        const downloadLink = document.createElement("a");
+        downloadLink.href = URL.createObjectURL(blob);
+        downloadLink.download = "qrcode.jpg";
+        downloadLink.click();
+      });
     </script>
   </body>
 </html>
